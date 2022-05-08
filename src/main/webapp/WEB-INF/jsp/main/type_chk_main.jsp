@@ -84,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="row mb-2">
           <div class="col-sm-6">
 
-           		<h2>형태 적합성 검사123456789</h2>
+           		<h2>형태 적합성 검사123456789승민</h2>
 
           </div><!-- /.col -->
           <div class="col-sm-6">
