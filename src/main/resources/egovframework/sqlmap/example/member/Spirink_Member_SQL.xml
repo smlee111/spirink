@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Member">
+	<resultMap id="member" class="egovframework.sprink.dto.Member">
+		<result property="tb_mem_no" column="tb_mem_no"/>
+		<result property="tb_mem_email" column="tb_mem_email"/>
+		<result property="tb_mem_nm" column="tb_mem_nm"/>
+		<result property="tb_mem_pwd" column="tb_mem_pwd"/>
+		<result property="tb_mem_tel" column="tb_mem_tel"/>
+		<result property="tb_mem_yn" column="tb_mem_yn"/>
+	</resultMap>
+    
+    <select id="memberDAO.selectMember" resultMap="member">
+        <![CDATA[
+            SELECT
+                tb_mem_no,tb_mem_nm,tb_mem_email,tb_mem_pwd,tb_mem_tel,tb_mem_yn
+            FROM tb_member 
+            WHERE tb_mem_email=#tb_mem_email#
+            AND tb_mem_pwd=#tb_mem_pwd#
+            AND tb_mem_yn = 'Y'
+        ]]>
+    </select>
+    <select id="memberDAO.selectMemberNo" resultMap="member">
+        <![CDATA[
+            SELECT
+                tb_mem_no,tb_mem_nm,tb_mem_email,tb_mem_pwd,tb_mem_tel,tb_mem_yn
+            FROM tb_member 
+            WHERE tb_mem_no=#tb_mem_no#
+        ]]>
+    </select>
+    <select id="memberDAO.selectChkMember" resultClass="int">
+       
+            SELECT
+                COUNT(*) cnt
+            FROM tb_member 
+            WHERE tb_mem_email=#tb_mem_email#
+            AND tb_mem_yn = 'Y'
+       
+    </select>
+    <select id="memberDAO.selectLogChkMember" resultClass="int">
+            SELECT
+                COUNT(*) cnt
+            FROM tb_member 
+            WHERE tb_mem_email=#tb_mem_email#
+            AND tb_mem_pwd=#tb_mem_pwd#
+            AND tb_mem_yn = 'Y'
+       
+    </select>
+	<select id="memberDAO.selectMemberList" parameterClass="searchVO" resultClass="java.util.HashMap">
+
+			SELECT
+				tb_mem_no,tb_mem_nm,tb_mem_email,tb_mem_pwd,tb_mem_tel,
+				IF(tb_mem_yn='Y', '사용', '미사용') tb_mem_yn,
+				tb_ins_dt
+			FROM tb_member
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				tb_mem_nm like concat('%',#searchKeyword#,'%')
+			</isEqual>
+			ORDER BY tb_mem_no ASC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+	</select>
+	<select id="memberDAO.selectWorkList" resultClass="java.util.HashMap">
+			SELECT bd_title,
+			(SELECT tb_mem_nm FROM tb_member WHERE tb_mem_no=bd_writer) bd_writer,
+			bd_idx,bd_file_name,bd_ins_dt,bd_comment,bd_org_name,
+			bd_cnt
+			FROM tb_work_bd AS A
+			WHERE bd_project=#agent#
+			ORDER BY bd_idx desc	
+	</select>
+	<select id="memberDAO.selectSpellList" resultClass="java.util.HashMap">
+			SELECT bd_title,
+			bd_idx,
+			bd_file_name,
+			bd_ins_dt,
+			bd_comment,
+			bd_org_name,
+			(SELECT cd_cd_nm FROM tb_code WHERE cd_group='0003' AND cd_code=A.bd_state) bd_state, 
+			bd_cnt,
+			bd_time,
+			bd_upd_dt
+			FROM tb_work_bd AS A
+			WHERE bd_project=#agent#
+			AND bd_type='spell'
+			AND bd_writer=#bd_writer#
+			ORDER BY bd_idx desc	
+	</select>
+	<select id="memberDAO.selectTypeChkList" resultClass="java.util.HashMap">
+			SELECT bd_title,
+			bd_idx,
+			bd_file_name,
+			bd_ins_dt,
+			bd_comment,
+			bd_org_name,
+			(SELECT cd_cd_nm FROM tb_code WHERE cd_group='0005' AND cd_code=A.bd_state) bd_state, 
+			bd_cnt,
+			bd_time,
+			bd_upd_dt
+			FROM tb_work_bd AS A
+			WHERE bd_project=#agent#
+			AND bd_type='type_chk'
+			AND bd_writer=#bd_writer#
+			ORDER BY bd_idx desc	
+	</select>
+	<select id="memberDAO.selectJsonList" resultClass="java.util.HashMap">
+			SELECT bd_title,
+			bd_idx,
+			bd_file_name,
+			bd_ins_dt,
+			bd_comment,
+			bd_org_name,
+			(SELECT cd_cd_nm FROM tb_code WHERE cd_group='0004' AND cd_code=A.bd_state) bd_state,
+			bd_cnt,
+			bd_time,
+			bd_upd_dt
+			FROM tb_work_bd AS A
+			WHERE bd_project=#agent#
+			AND bd_type='json'
+			AND bd_writer=#bd_writer#
+			ORDER BY bd_idx desc	
+	</select>
+	<select id="memberDAO.selectMemberListTotCnt" parameterClass="searchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM tb_member
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				tb_mem_nm like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+	<insert id="memberDAO.insertMember">
+		<![CDATA[
+			INSERT INTO tb_member 
+				( tb_mem_nm
+				  , tb_mem_email
+				  , tb_mem_pwd
+				  , tb_mem_tel )
+			VALUES ( #tb_mem_nm#
+				  , #tb_mem_email#
+				  , #tb_mem_pwd#
+				  , #tb_mem_tel#)
+		]]>
+	</insert>
+	<insert id="memberDAO.insertWorkFile" parameterClass="egovframework.sprink.dto.UploadFileVo">
+		<![CDATA[
+			INSERT INTO tb_work_bd 
+				( bd_project
+				  , bd_title
+				  , bd_type
+				  , bd_comment
+				  , bd_cnt
+				  , bd_org_name
+				  , bd_writer
+				  , bd_file_name )
+			VALUES ( #bd_project#
+				  , #bd_title#
+				  , #bd_type#
+				  , #bd_comment#
+				  , #bd_cnt#
+				  , #bd_org_name#
+				  , #bd_writer#
+				  , #bd_file_name#)
+		]]>
+		    <selectKey resultClass="java.lang.String" keyProperty="bd_idx">
+				SELECT LAST_INSERT_ID()
+		    </selectKey>
+	</insert>
+	<insert id="memberDAO.createTable" parameterClass="java.util.HashMap">
+			CREATE TABLE $table_name$ (
+				wk_idx INT(11) NOT NULL AUTO_INCREMENT,
+				uni_num VARCHAR(100) NULL DEFAULT NULL,
+				bd_idx INT(11) NULL DEFAULT NULL,
+				worker_nm TEXT NOT NULL DEFAULT '',
+				quest TEXT NOT NULL DEFAULT '',
+				answer TEXT NOT NULL DEFAULT '',
+				sp_quest TEXT NOT NULL DEFAULT '',
+				sp_answer TEXT NOT NULL DEFAULT '',
+				mod_contents VARCHAR(1024) NULL DEFAULT NULL,
+				mod_yn ENUM('Y','N') NOT NULL DEFAULT 'Y',
+				noun_list VARCHAR(1024) NULL DEFAULT NULL,
+				noun_list2 VARCHAR(1024) NULL DEFAULT NULL,
+				label VARCHAR(1024) DEFAULT NULL,
+				ins_date DATETIME NOT NULL DEFAULT current_timestamp(),
+				upd_date DATETIME NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+				PRIMARY KEY (wk_idx)
+			)
+	</insert>
+	<update id="memberDAO.dropTableTypeChk" parameterClass="java.util.HashMap">
+				DROP TABLE IF EXISTS $tb_name$
+	</update>
+
+	<update id="memberDAO.updateMember">
+		<![CDATA[
+			UPDATE tb_member
+			SET tb_mem_nm=#tb_mem_nm#
+				, tb_mem_pwd=#tb_mem_pwd#
+				, tb_mem_tel=#tb_mem_tel#
+				, tb_mem_yn=#tb_mem_yn#
+			WHERE tb_mem_no=#tb_mem_no#
+		]]>
+	</update>
+	<update id="memberDAO.updateWorkState">
+		<![CDATA[
+			UPDATE tb_work_bd
+			SET bd_state=#bd_state#
+			WHERE bd_idx=#bd_idx#
+		]]>
+	</update>
+	<update id="memberDAO.delJsonData">
+		<![CDATA[
+			DELETE from tb_work_bd
+			WHERE bd_idx=#bd_idx#
+		]]>
+	</update>
+	<update id="memberDAO.delTypeChkData">
+		<![CDATA[
+			DELETE from tb_work_bd
+			WHERE bd_idx=#bd_idx#
+		]]>
+	</update>
+	<update id="memberDAO.updateAuthData">
+		
+			INSERT INTO tb_mem_auth (au_mem, au_menu, au_list,au_mod) VALUES (#au_mem#, #au_menu#, #au_list#,#au_mod#) 
+            ON DUPLICATE KEY UPDATE 
+            au_list = #au_list#,
+            au_mod = #au_mod#
+	</update>
+	<update id="memberDAO.updateKeywordData">
+		    UPDATE $table_name$
+			SET noun_list=#noun_list#
+				, noun_list2=#noun_list2#
+			WHERE wk_idx=#wk_idx#
+	</update>
+	<update id="memberDAO.updateTypeChkMod">
+		    UPDATE $table_name$
+			SET mod_yn=#mod_yn#
+			WHERE wk_idx=#wk_idx#
+	</update>
+	<update id="memberDAO.updateTypeChkState">
+		    UPDATE $table_name$
+			SET noun_list=#noun_list#
+			WHERE wk_idx=#wk_idx#
+	</update>
+	<update id="memberDAO.updateTypeChkData">
+		    UPDATE $table_name$
+			SET answer=#answer#
+				, sp_answer=#sp_answer#
+				, sp_quest=#answer#
+			WHERE wk_idx=#wk_idx#
+	</update>
+	<update id="memberDAO.updateSpellData">
+		    UPDATE $table_name$
+			SET sp_quest=#sp_quest#
+				, sp_answer=#sp_answer#
+				, mod_yn=#mod_yn#
+			WHERE wk_idx=#wk_idx#
+	</update>
+	<select id="memberDAO.selectAuthList" parameterClass="searchVO" resultClass="java.util.HashMap">
+			SELECT 
+				mu_idx,mu_step,mu_title,mu_ord,mu_bigo,au_list,au_mod,mu_method,
+				(SELECT tb_mem_nm FROM tb_member where au_mem=tb_mem_no) tb_mem_nm
+			FROM tb_menu AS A
+			LEFT OUTER JOIN tb_mem_auth AS B
+			ON A.mu_idx = B.au_menu
+			AND B.au_mem=#searchKeyword#
+			ORDER BY A.mu_step,A.mu_ord
+	</select>
+	<select id="memberDAO.selectWorkDetailList" parameterClass="searchVO" resultClass="java.util.HashMap">
+			SELECT
+			uni_num,
+			quest,
+			sp_quest,
+			answer,
+			sp_answer,
+			mod_contents,
+			mod_yn,
+			noun_list,
+			noun_list2,
+			ins_date
+			FROM $table_name$
+			WHERE 1=1
+			AND bd_idx=#bd_idx#
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				answer like concat('%',#searchKeyword#,'%')
+			</isEqual>
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#	
+	</select>
+	<select id="memberDAO.selectSpellDetailList" parameterClass="searchVO" resultClass="java.util.HashMap">
+			SELECT
+			wk_idx,
+			uni_num,
+			quest,
+			sp_quest,
+			answer,
+			sp_answer,
+			mod_contents,
+			mod_yn,
+			noun_list,
+			noun_list2,
+			ins_date,
+			date_format(upd_date,'%y-%m-%d %H:%i') upd_date
+			FROM $table_name$
+			WHERE 1=1
+			AND bd_idx=#bd_idx#
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				quest like concat('%',#searchKeyword#,'%')
+			</isEqual>
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#	
+	</select>
+	<select id="memberDAO.selectWorkTotDetailList" parameterClass="searchVO" resultClass="java.util.HashMap">
+			SELECT
+			wk_idx,
+			bd_idx,
+			quest,
+			answer,
+			mod_contents,
+			mod_yn,
+			noun_list,
+			ins_date
+			FROM $table_name$
+			WHERE 1=1
+			AND bd_idx=#bd_idx#
+	</select>
+	<select id="memberDAO.selectWorkListTotCnt" parameterClass="searchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM $table_name$
+			WHERE 1=1
+			AND bd_idx=#bd_idx#
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				 quest like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+	<select id="memberDAO.selectWorkAnsTotCnt" parameterClass="searchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM $table_name$
+			WHERE 1=1
+			AND bd_idx=#bd_idx#
+			AND mod_yn='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				 quest like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+	<select id="memberDAO.selectTypeChkAnsTotCnt" parameterClass="searchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM $table_name$
+			WHERE 1=1
+			AND bd_idx=#bd_idx#
+			AND sp_answer!=''
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				 quest like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+	<select id="memberDAO.selectSpellCompCode" parameterClass="searchVO" resultClass="String">
+			SELECT bd_state 
+			FROM tb_work_bd
+			WHERE bd_idx=#bd_idx#
+	</select>
+</sqlMap>

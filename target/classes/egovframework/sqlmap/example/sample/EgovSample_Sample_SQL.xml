@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Sample">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+
+	<resultMap id="sample" class="egovframework.example.sample.service.SampleVO">
+		<result property="id" column="id"/>
+		<result property="dic_idx" column="dic_idx"/>
+		<result property="name" column="name"/>
+		<result property="description" column="description"/>
+		<result property="useYn" column="use_yn"/>
+		<result property="regUser" column="reg_user"/>
+	</resultMap>
+
+	<insert id="sampleDAO.insertSample">
+		<![CDATA[
+			INSERT INTO SAMPLE 
+				( ID
+				  , NAME
+				  , DESCRIPTION
+				  , USE_YN
+				  , REG_USER )
+			VALUES ( #id#
+				  , #name#
+				  , #description#
+				  , #useYn#
+				  , #regUser# )
+		]]>
+	</insert>
+	
+	<update id="sampleDAO.updateSample">
+		<![CDATA[
+			UPDATE SAMPLE
+			SET ID=#id#
+				, NAME=#name#
+				, DESCRIPTION=#description#
+				, USE_YN=#useYn#
+			WHERE ID=#id#
+		]]>
+	</update>
+	<update id="sampleDAO.updateTotalData" parameterClass="java.util.HashMap">
+		<![CDATA[
+			UPDATE tb_total_dic
+			SET dic_word=#dic_word#
+				, dic_nvzdbipscc=#dic_nvzdbipscc#
+				, dic_use_yn=#dic_use_yn#
+			WHERE dic_idx=#dic_idx#
+		]]>
+	</update>
+	<update id="sampleDAO.updateTestData" parameterClass="java.util.HashMap">
+		<![CDATA[
+			UPDATE tb_sty_test
+			SET sty_convert=#sty_convert#
+				, sty_ans_tf=#sty_ans_tf#
+				, sty_emi=#sty_emi#
+			WHERE sty_idx=#sty_idx#
+		]]>
+	</update>
+	<update id="sampleDAO.updateExtensionData" parameterClass="java.util.HashMap">
+		<![CDATA[
+			UPDATE tb_extension_dic
+			SET dic_word=#dic_word#
+				, dic_nvzdbipscc=#dic_nvzdbipscc#
+				, dic_use_yn=#dic_use_yn#
+			WHERE dic_idx=#dic_idx#
+		]]>
+	</update>
+	<insert id="sampleDAO.regExtensionData">
+		<![CDATA[
+			INSERT INTO tb_extension_dic 
+				(   dic_word
+				  , dic_nvzdbipscc
+				  , dic_use_yn
+				  , dic_word_b
+				  , dic_nvzdbipscc_b)
+			VALUES ( #dic_word#
+				  , #dic_nvzdbipscc#
+				  , #dic_use_yn#
+				  , #dic_word#
+				  , #dic_nvzdbipscc# )
+		]]>
+	</insert>
+	<delete id="sampleDAO.deleteSample">
+		<![CDATA[
+			DELETE FROM SAMPLE 
+			WHERE ID=#id#
+		]]>
+	</delete>
+    
+    <select id="sampleDAO.selectSample" resultMap="sample">
+        <![CDATA[
+            SELECT
+                ID, NAME, DESCRIPTION, USE_YN, REG_USER
+            FROM SAMPLE 
+            WHERE ID=#id#
+        ]]>
+    </select>
+	
+<!-- 	<select id="sampleDAO.selectSampleList" parameterClass="searchVO" resultClass="egovMap">
+
+			SELECT
+				ID, NAME, DESCRIPTION, USE_YN, REG_USER
+			FROM SAMPLE
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				ID LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				NAME LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			ORDER BY ID DESC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+	</select> -->
+	
+	<select id="sampleDAO.selectSampleList" parameterClass="searchVO" resultClass="java.util.HashMap">
+
+			SELECT
+				dic_idx,dic_word,dic_nvzdbipscc,dic_user,dic_use_yn,dic_upddate
+			FROM tb_total_dic
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				dic_word like concat('%',#searchKeyword#,'%')
+			</isEqual>
+			ORDER BY dic_idx ASC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+	</select>
+	<select id="sampleDAO.selectTestList" parameterClass="searchVO" resultClass="java.util.HashMap">
+
+			SELECT
+				sty_idx,sty_type,sty_quest,sty_answer,sty_convert,sty_ans_tf,sty_emi,sty_upd_dt
+			FROM tb_sty_test
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				sty_quest like concat('%',#searchKeyword#,'%')
+			</isEqual>
+			ORDER BY sty_idx DESC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+	</select>
+	<select id="sampleDAO.selectTestTotList" resultClass="java.util.HashMap">
+
+			SELECT
+				sty_idx,sty_type,sty_quest,sty_answer,sty_convert,sty_ans_tf,sty_upd_dt
+			FROM tb_sty_test
+			WHERE 1=1
+			ORDER BY sty_idx ASC
+				
+	</select>
+	<select id="sampleDAO.selectTotalList" parameterClass="searchVO" resultClass="java.util.HashMap">
+			SELECT
+				dic_word,dic_nvzdbipscc
+			FROM tb_total_dic
+			WHERE 1=1
+			AND dic_use_yn='Y'
+			ORDER BY dic_idx ASC
+	</select>
+	<select id="sampleDAO.selectExtensionTotList" parameterClass="searchVO" resultClass="java.util.HashMap">
+			SELECT
+				dic_word,dic_nvzdbipscc
+			FROM tb_extension_dic
+			WHERE 1=1
+			AND dic_use_yn='Y'
+			ORDER BY dic_idx ASC
+	</select>
+	<select id="sampleDAO.selectExtensionList" parameterClass="searchVO" resultClass="java.util.HashMap">
+			SELECT
+				dic_idx,dic_word,dic_nvzdbipscc,dic_user,dic_use_yn,dic_upddate
+			FROM tb_extension_dic
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				dic_word like concat('%',#searchKeyword#,'%')
+			</isEqual>
+			ORDER BY dic_idx ASC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+	</select>
+	<select id="sampleDAO.selectTotalData" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+			SELECT
+				dic_idx,dic_word,dic_nvzdbipscc,dic_word_b,dic_nvzdbipscc_b,dic_use_yn
+			FROM tb_total_dic
+			WHERE 1=1
+			AND dic_idx=#dic_idx#
+	</select>
+	<select id="sampleDAO.selectExtensionData" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+			SELECT
+				dic_idx,dic_word,dic_nvzdbipscc,dic_word_b,dic_nvzdbipscc_b,dic_use_yn
+			FROM tb_extension_dic
+			WHERE 1=1
+			AND dic_idx=#dic_idx#
+	</select>
+	<!-- <select id="sampleDAO.selectSampleListTotCnt" parameterClass="searchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM SAMPLE
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				ID LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				NAME LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select> -->
+
+	<select id="sampleDAO.selectSampleListTotCnt" parameterClass="searchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM tb_total_dic
+			WHERE 1=1
+			AND dic_use_yn='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				dic_word like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+	<select id="sampleDAO.selectTestListTotCnt" parameterClass="searchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM tb_sty_test
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				sty_quest like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+	<select id="sampleDAO.selectTestAnsTotCnt" parameterClass="searchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM tb_sty_test
+			WHERE 1=1
+			AND sty_ans_tf='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				sty_quest like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+	<select id="sampleDAO.selectExtensionListTotCnt" parameterClass="searchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM tb_extension_dic
+			WHERE 1=1
+			AND dic_use_yn='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				dic_word like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+</sqlMap>
