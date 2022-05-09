@@ -242,7 +242,7 @@ public class ReCommonController {
 		model.addAttribute("paginationInfo", paginationInfo);
 		System.out.println("======="+paginationInfo.toString());*/
 		//System.out.println("main/main");
-		return "reDesign/spell_remain";
+		return "reDesign/spell_main";
 	}
 	
 	/**
@@ -288,7 +288,7 @@ public class ReCommonController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "reWork/work_list";
+		return "reDesign/work_list";
 	}
 	
 	/**
@@ -304,7 +304,7 @@ public class ReCommonController {
         String agent = requestParams.get("agent");
         model.put("agent", agent);
         System.out.println("agent===>"+agent);
-		return "reWork/work_insert";
+		return "reDesign/work_insert";
 	}
 	
 	/**
@@ -353,7 +353,7 @@ public class ReCommonController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "reWork/spell_list";
+		return "reDesign/spell_list";
 	}
 	
 	/**
@@ -369,6 +369,6 @@ public class ReCommonController {
         String agent = requestParams.get("agent");
         model.put("agent", agent);
         System.out.println("agent===>"+agent);
-		return "reWork/spell_insert";
+		return "reDesign/spell_insert";
 	}
 }
