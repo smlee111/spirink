@@ -355,4 +355,20 @@ public class ReCommonController {
 		}
 		return "reWork/spell_list";
 	}
+	
+	/**
+	 * spell_insert
+	 * 맞춤법 작업등록
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/spell_reinsert.do")
+	public String spell_insert(@RequestParam Map<String, String> requestParams,ModelMap model) throws Exception {
+        String agent = requestParams.get("agent");
+        model.put("agent", agent);
+        System.out.println("agent===>"+agent);
+		return "reWork/spell_insert";
+	}
 }
