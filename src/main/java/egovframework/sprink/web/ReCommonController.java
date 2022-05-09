@@ -123,7 +123,7 @@ public class ReCommonController {
 	protected DefaultBeanValidator beanValidator;
 
 	/**
-	 * 메인
+	 * 레이아웃
 	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
 	 * @param model
 	 * @return "egovSampleList"
@@ -135,4 +135,240 @@ public class ReCommonController {
 		return "reDesign/layout";
 	}
 	
+	//맞춤법 검사
+	/**
+	 * 메인
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+
+	@RequestMapping(value = "/spell_remain.do")
+	public String spell_list(HttpSession session,@RequestParam Map<String, String> requestParams, ModelMap model) throws Exception {
+		List<?> authList = (List<?>)session.getAttribute("authList");
+		String agent = requestParams.get("agent")==null?"":requestParams.get("agent");
+		Map<String,Object> map = new HashMap<String,Object>();
+		Member mem = (Member)session.getAttribute("login");
+		String searchKeyword = requestParams.get("searchKeyword")==null?"":requestParams.get("searchKeyword");
+		String sp_quest="";
+		try{
+		if ( session.getAttribute("login") != null ){
+
+			String proList = propertiesService.getString("projectNum");
+			StringTokenizer stk = new StringTokenizer(proList,",");
+			int cnt = stk.countTokens();
+			System.out.println("cnt"+cnt);
+			///현재 프로젝트와 내권한을 확인하여 프로젝트를 설정하는 메소드
+			///내가 가진 권한중에 선택한 권한을 리턴한다.
+			String reAgent="";
+			for(int i=0;i<cnt;i++){
+				if(!reAgent.equals(""))break;
+				String pro = stk.nextToken();
+				for(Object menu :authList){
+					HashMap<String,Object> authMap = (HashMap<String,Object>)menu;
+					int mu_idx = (int)authMap.get("mu_idx");
+					String au_list = (String)authMap.get("au_list");
+					String mu_method = (String)authMap.get("mu_method");
+					System.out.println("agent"+agent+"mu_idx"+mu_idx+"pro"+pro+"au_list"+au_list);
+					if(agent.equals("")){//무조건 내가가진 권한을 리턴한다.
+						if(mu_idx==Integer.parseInt(pro)&&au_list.equals("Y")){
+							reAgent = (String)authMap.get("mu_method");
+							break;
+						}
+					}else{//선택한 권한을 리턴한다
+						if(agent.equals(mu_method)&&mu_idx==Integer.parseInt(pro)&&au_list.equals("Y")){
+							reAgent = (String)authMap.get("mu_method");
+							break;
+						}
+					}
+				}
+				
+			}
+			System.out.println("reAgent"+reAgent);
+			map.put("agent", reAgent);
+			map.put("bd_writer", mem.getTb_mem_no());
+			
+			List<?> workList = memberService.selectSpellList(map);
+			System.out.println("authList=="+authList.toString());
+			model.put("agent", reAgent);
+			model.addAttribute("resultList", workList);
+			
+			if(!searchKeyword.equals("")) {//한건 맞춤법 검사를 진행한다
+				String[] command = new String[4];
+		        command[0] = "python";
+		        //command[1] = "\\workspace\\java-call-python\\src\\main\\resources\\test.py";
+		        command[1] = ConfigUtil.PYTHON_EXEC+"/spellTest.py";
+				try {
+					        	command[2] = searchKeyword;
+					            String str = CommonUtils.execPython(command,true);
+					            String result = "[일치]";
+					            String reStr = CommonUtils.getDecode(str);
+					            if(!reStr.equals(searchKeyword)) {
+					            	result = "[불일치]";
+					            }
+					            sp_quest = "맞춤법 검사결과 "+result+" : "+reStr;
+					        } catch (Exception e) {
+					            e.printStackTrace();
+					        }
+					}
+			
+			model.put("searchKeyword", searchKeyword);
+			}
+		    model.put("sp_quest", sp_quest);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		/*System.out.println("requestParams"+requestParams.toString());
+		*//** EgovPropertyService.sample *//*
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		*//** pageing setting *//*
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = memberService.selectMemberList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = memberService.selectMemberListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		System.out.println("======="+paginationInfo.toString());*/
+		//System.out.println("main/main");
+		return "reDesign/spell_remain";
+	}
+	
+	/**
+	 * worklist
+	 * 작업내용을 조회한다. (pageing)
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/work_relist.do")
+	public String work_list(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+		/** EgovPropertyService.sample */
+		try {
+		searchVO.setPageUnit(100);
+		searchVO.setPageSize(20);
+		System.out.println("searchVO.bd_idx"+searchVO.getBd_idx());
+		searchVO.setTable_name("tb_work_"+searchVO.getBd_idx());
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		System.out.println("searchVO==>"+searchVO.getSearchKeyword());
+		List<?> sampleList = memberService.selectWorkDetailList(searchVO);
+		
+		model.addAttribute("resultList", sampleList); 
+
+		int totCnt = memberService.selectWorkListTotCnt(searchVO);
+		int ansCnt = memberService.selectWorkAnsTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		float sucRate = ((float)ansCnt/totCnt)*100;
+		HashMap<String, String> staMap = new HashMap<String, String>();
+		model.put("agent", searchVO.getAgent());
+		model.put("bd_idx", searchVO.getBd_idx());
+		model.put("searchKeyword", searchVO.getSearchKeyword());
+		model.put("sucRate", String.valueOf(sucRate));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "reWork/work_list";
+	}
+	
+	/**
+	 * work_insert
+	 * 작업등록
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/work_reinsert.do")
+	public String work_insert(@RequestParam Map<String, String> requestParams,ModelMap model) throws Exception {
+        String agent = requestParams.get("agent");
+        model.put("agent", agent);
+        System.out.println("agent===>"+agent);
+		return "reWork/work_insert";
+	}
+	
+	/**
+	 * spell_list
+	 * 맞춤법 작업내용을 조회한다. (pageing)
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/spell_relist.do")
+	public String spell_list(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+		/** EgovPropertyService.sample */
+		try {
+		searchVO.setPageUnit(100);
+		searchVO.setPageSize(20);
+		//System.out.println("searchVO.bd_idx"+searchVO.getBd_idx());
+		
+		String bd_state = memberService.selectSpellCompCode(searchVO);
+		model.addAttribute("bd_state", bd_state); 
+		searchVO.setTable_name("tb_spell_"+searchVO.getBd_idx());
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		System.out.println("searchVO==>"+searchVO.getSearchKeyword());
+		List<?> sampleList = memberService.selectSpellDetailList(searchVO);
+		
+		model.addAttribute("resultList", sampleList); 
+
+		int totCnt = memberService.selectWorkListTotCnt(searchVO);
+		int ansCnt = memberService.selectWorkAnsTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		float sucRate = ((float)ansCnt/totCnt)*100;
+		HashMap<String, String> staMap = new HashMap<String, String>();
+		model.put("agent", searchVO.getAgent());
+		model.put("bd_idx", searchVO.getBd_idx());
+		model.put("searchKeyword", searchVO.getSearchKeyword());
+		model.put("sucRate", String.valueOf(sucRate));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "reWork/spell_list";
+	}
+	
+	/**
+	 * spell_insert
+	 * 맞춤법 작업등록
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/spell_reinsert.do")
+	public String spell_insert(@RequestParam Map<String, String> requestParams,ModelMap model) throws Exception {
+        String agent = requestParams.get("agent");
+        model.put("agent", agent);
+        System.out.println("agent===>"+agent);
+		return "reWork/spell_insert";
+	}
 }
