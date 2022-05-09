@@ -143,7 +143,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         			<caption style="visibility:hidden">카테고리ID, 케테고리명, 사용여부, Description, 등록자 표시하는 테이블</caption>
         			<thead>
         			<tr>
-        				<td align="center">No</th>
+        				<td align="center">No.</th>
         				<td align="center">작업명</th>
         				<td align="center">작업내용</th>
         				<td align="center">맞춤법</th>
