@@ -135,8 +135,72 @@ public class ReCommonController {
 		return "reDesign/main";
 	}
 	
-	//맞춤법 검사
 	/**
+	 * 로그인
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/reLogin.do")
+	public String login(ModelMap model) throws Exception {
+		
+		return "reDesign/login";
+	}
+	
+//	 // 로그인 submit
+//	  @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
+//	  public String loginPost(@RequestParam Map<String, String> requestParams, Model model, HttpSession session) throws Exception {
+//		  String returnURL = "";
+//		  try {
+//		  
+//	      if ( session.getAttribute("login") != null ){
+//	          // 기존에 login이란 세션 값이 존재한다면
+//	          session.removeAttribute("login"); // 기존값을 제거해 준다.
+//	      }
+//	      
+//	      // 로그인이 성공하면 UsersVO 객체를 반환함.
+//	      //UsersVO vo = service.getUser(UsersVO);
+//	     
+//	      Map<String, Object> hashData = new HashMap<String, Object>();
+//	      hashData.put("tb_mem_email", requestParams.get("tb_mem_email"));
+//	      hashData.put("tb_mem_pwd", requestParams.get("tb_mem_pwd"));
+//	      Member mem = memberService.selectMember(hashData);
+//	      //세션에 권한 넣기
+//	      
+//	      if ( mem != null ){ // 로그인 성공
+//	          session.setAttribute("login", mem); // 세션에 login인이란 이름으로 UsersVO 객체를 저장해 놈.
+//	          String au_mem = mem.getTb_mem_no();//회원번호
+//	  		  SampleDefaultVO searchVO = new SampleDefaultVO();
+//	  		  searchVO.setSearchKeyword(au_mem);
+//	  		  List<?> authList = memberService.selectAuthList(searchVO);
+//	  		    
+//	  		    //로그인 성공시 로그기록
+//		  		Map<String, Object> logData = new HashMap<String, Object>();
+//		  		logData.put("log_project", "common"); //프로젝트명 공통프로젝트
+//		  		logData.put("bd_idx", "0");           //작업이 결정되지 않았을 경우
+//		  		logData.put("cd_group", "0002");      //회원관련
+//		  		logData.put("cd_code", "0001");		  //로그인
+//		  		logData.put("mb_idx", mem.getTb_mem_no()); //회원번호
+//		  		logData.put("log_cont", mem.getTb_mem_nm()+"님이 로그인했습니다"); //회원번호
+//			    
+//				commonService.insertLogData(logData);
+//			  //System.out.println("로그저장");
+//	  		  session.setAttribute("authList", authList); // 세션에 login인이란 이름으로 UsersVO 객체를 저장해 놓은다
+//	  		  //System.out.println("세션적용");
+//	          returnURL = "redirect:/type_chk_main.do"; // 로그인 성공시 메인페이지로 이동하고
+//	          
+//	      }else { // 로그인에 실패한 경우
+//	          returnURL = "redirect:/relogin.do"; // 로그인 폼으로 다시 가도록 함
+//	      }
+//		  }catch(Exception e) {
+//			  e.printStackTrace();
+//		  }
+//	      return returnURL; // 위에서 설정한 returnURL 을 반환해서 이동시킴
+//	  }
+	
+	/**
+	 * 맞춤법 검사
 	 * 메인
 	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
 	 * @param model
