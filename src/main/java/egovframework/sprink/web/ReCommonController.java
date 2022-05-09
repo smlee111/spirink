@@ -129,10 +129,10 @@ public class ReCommonController {
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/reMain.do")
+	@RequestMapping(value = "/layout.do")
 	public String main() throws Exception {
-		System.out.println("reDesign/main");
-		return "reDesign/main";
+		System.out.println("reDesign/layout");
+		return "reDesign/layout";
 	}
 	
 	/**
