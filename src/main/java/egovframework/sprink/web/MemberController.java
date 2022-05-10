@@ -211,7 +211,6 @@ public class MemberController {
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
-
 	@RequestMapping(value = "/spell_main.do")
 	public String spell_list(HttpSession session,@RequestParam Map<String, String> requestParams, ModelMap model) throws Exception {
 		List<?> authList = (List<?>)session.getAttribute("authList");
