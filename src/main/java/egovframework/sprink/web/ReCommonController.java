@@ -96,6 +96,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 
 @Controller
+@RequestMapping(value = "/reDesign/")
 public class ReCommonController {
 	
 	/** EgovSampleService */
@@ -123,16 +124,98 @@ public class ReCommonController {
 	protected DefaultBeanValidator beanValidator;
 
 	/**
-	 * 메인
+	 * 레이아웃 샘플
 	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
 	 * @param model
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/layout.do")
-	public String main() throws Exception {
+	public String layout() throws Exception {
 		System.out.println("reDesign/layout");
 		return "reDesign/layout";
+	}
+	
+	/**
+	 * 메인
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/main.do")
+	public String main(HttpSession session,@RequestParam Map<String, String> requestParams, ModelMap model) throws Exception {
+		List<?> authList = (List<?>)session.getAttribute("authList");
+		String agent = requestParams.get("agent")==null?"":requestParams.get("agent");
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		try{
+		if ( session.getAttribute("login") != null ){
+
+			String proList = propertiesService.getString("projectNum");
+			StringTokenizer stk = new StringTokenizer(proList,",");
+			int cnt = stk.countTokens();
+			System.out.println("cnt"+cnt);
+			///현재 프로젝트와 내권한을 확인하여 프로젝트를 설정하는 메소드
+			///내가 가진 권한중에 선택한 권한을 리턴한다.
+			String reAgent="";
+			for(int i=0;i<cnt;i++){
+				if(!reAgent.equals(""))break;
+				String pro = stk.nextToken();
+				for(Object menu :authList){
+					HashMap<String,Object> authMap = (HashMap<String,Object>)menu;
+					int mu_idx = (int)authMap.get("mu_idx");
+					String au_list = (String)authMap.get("au_list");
+					String mu_method = (String)authMap.get("mu_method");
+					System.out.println("agent"+agent+"mu_idx"+mu_idx+"pro"+pro+"au_list"+au_list);
+					if(agent.equals("")){//무조건 내가가진 권한을 리턴한다.
+						if(mu_idx==Integer.parseInt(pro)&&au_list.equals("Y")){
+							reAgent = (String)authMap.get("mu_method");
+							break;
+						}
+					}else{//선택한 권한을 리턴한다
+						if(agent.equals(mu_method)&&mu_idx==Integer.parseInt(pro)&&au_list.equals("Y")){
+							reAgent = (String)authMap.get("mu_method");
+							break;
+						}
+					}
+				}
+				
+			}
+			System.out.println("reAgent"+reAgent);
+			map.put("agent", reAgent);
+			List<?> workList = memberService.selectWorkList(map);
+			System.out.println("authList=="+authList.toString());
+			model.put("agent", reAgent);
+			model.addAttribute("resultList", workList);
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		/*System.out.println("requestParams"+requestParams.toString());
+		*//** EgovPropertyService.sample *//*
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		*//** pageing setting *//*
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = memberService.selectMemberList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = memberService.selectMemberListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		System.out.println("======="+paginationInfo.toString());*/
+		System.out.println("reDesign/main");
+		return "reDesign/main";
 	}
 	
 	/**

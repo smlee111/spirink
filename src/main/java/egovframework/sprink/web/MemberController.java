@@ -1068,7 +1068,8 @@ public class MemberController {
 		  //System.out.println("로그저장");
   		  session.setAttribute("authList", authList); // 세션에 login인이란 이름으로 UsersVO 객체를 저장해 놓은다
   		  //System.out.println("세션적용");
-          returnURL = "redirect:/type_chk_main.do"; // 로그인 성공시 메인페이지로 이동하고
+          //returnURL = "redirect:/type_chk_main.do"; // 로그인 성공시 메인페이지로 이동하고
+  		  returnURL = "redirect:/reDesign/main.do";
           
       }else { // 로그인에 실패한 경우
           returnURL = "redirect:/login.do"; // 로그인 폼으로 다시 가도록 함
