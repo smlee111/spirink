@@ -13,12 +13,15 @@
         <!-- <property name="url" value="jdbc:mariadb://61.42.251.243:39306/spdb" /> -->
         <!-- <property name="url" value="jdbc:mariadb://192.168.180.236:39306/spdb" /> -->
         <!-- <property name="url" value="jdbc:mariadb://192.168.180.236:39306/spreal" /> -->
-        <property name="url" value="jdbc:mariadb://3.141.193.212:39306/spreal" />
+        <!-- <property name="url" value="jdbc:mariadb://3.141.193.212:39306/spreal" /> -->
+        <property name="url" value="jdbc:mariadb://127.0.0.1:39306/spdb" />
         
         
         <!-- <property name="username" value="playcom"/> -->
-        <property name="username" value="spirink"/>
-        <property name="password" value="tmvlfldzm!23"/>
+        <!-- <property name="username" value="spirink"/>
+        <property name="password" value="tmvlfldzm!23"/> -->
+        <property name="username" value="root"/>
+        <property name="password" value="tmvlfldzm"/>
         <!-- validationQuery:유효 검사용 쿼리 --> 
         <property name="validationQuery" value="select 1"/>
         <!-- testWhileIdle:컨넥션이 놀고 있을때 -_-; validationQuery 를 이용해서 유효성 검사를 할지 여부. -->
