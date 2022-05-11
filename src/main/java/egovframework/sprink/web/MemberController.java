@@ -1026,7 +1026,7 @@ public class MemberController {
 		    
 			commonService.insertLogData(logData);
 	    }
-		return "member/login";
+		return "reDesign/login";
 	}
    // 로그인 submit
   @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
