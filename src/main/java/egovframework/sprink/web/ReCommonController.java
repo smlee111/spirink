@@ -225,7 +225,7 @@ public class ReCommonController {
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/reLogin.do")
+	@RequestMapping(value = "/login.do")
 	public String login(ModelMap model) throws Exception {
 		
 		return "reDesign/login";
