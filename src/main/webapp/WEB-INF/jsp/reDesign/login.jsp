@@ -28,55 +28,33 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body>
-<div>
-  <div>
-    <b>TextNet</b>
-  </div>
-  <!-- /.login-logo -->
-  <div>
-    <div>
-      <form name="loginForm" action="${pageContext.request.contextPath}/loginPost.do" method="post">
-        <div>
-          <input type="email" id="tb_mem_email" name="tb_mem_email" onkeyup="mailEnterkey()" placeholder="이메일" value="">
-          <div>
-            <div>
-              <span></span>
-            </div> 
-          </div> 
-        </div>
-        <div>
-          <input type="password" id="tb_mem_pwd" name="tb_mem_pwd" onkeyup="enterkey()" placeholder="비밀번호" value="">
-          <div>
-            <div>
-              <span></span>
+<div class="content">
+        <div class="loginWrap">
+
+            <div class="loginHead">
+                <p class="logo">TEXTNET</p>
+                <!-- <p class="welcome">Welcome back!</p> -->
             </div>
-          </div>
+            <form name="loginForm" action="${pageContext.request.contextPath}/loginPost.do" method="post">
+                <ul class="loginBox">  
+                    <li>
+                        <input type="email" id="tb_mem_email" name="tb_mem_email" onkeyup="mailEnterkey()" placeholder="이메일" value="">
+                    </li>
+                    <li>
+                        <input type="password" id="tb_mem_pwd" name="tb_mem_pwd" onkeyup="enterkey()" placeholder="비밀번호" value="">
+                    </li>
+                    <!-- <div>
+                        <input type="checkbox">
+                    </div> -->
+                    <li>
+                        <div class="loginBtn" onClick="login_chk()">
+                            <p>Login</p> 
+                        </div>
+                    </li>
+                </ul>
+            </form>
         </div>
-        <div>
-          <div>
-            <div>
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                	아이디저장
-              </label>
-            </div>
-          </div>
-          <div>
-            <button type="button" onClick="login_chk()">로그인</button>
-          </div>
-        </div>
-      </form>
-      <!-- <p class="mb-1">
-        <a href="forgot-password.html">I forgot my password</a>
-      </p>
-      <p class="mb-0">
-        <a href="register.html" class="text-center">Register a new membership</a>
-      </p> -->
     </div>
-    <!-- /.login-card-body -->
-  </div>
-</div>
-<!-- /.login-box -->
 
 <!-- jQuery -->
 <script src="../..${pageContext.request.contextPath}/plugins/jquery/jquery.min.js"></script>
