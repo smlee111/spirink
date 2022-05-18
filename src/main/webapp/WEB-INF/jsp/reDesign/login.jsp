@@ -12,9 +12,9 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- reset css  -->
-  <link rel="stylesheet" href="../..${pageContext.request.contextPath}/css/reset.css">
+  <link rel="stylesheet" href="../..${pageContext.request.contextPath}/css/reset.css"> 
   <!-- main css  -->
-  <link rel="stylesheet" href="../..${pageContext.request.contextPath}/css/main.css">
+  <link rel="stylesheet" href="../..${pageContext.request.contextPath}/css/main.css"> 
   <link rel="">
   <!-- Font Awesome -->
   <%-- <link rel="stylesheet" href="../..${pageContext.request.contextPath}/plugins/fontawesome-free/css/all.min.css"> --%>
@@ -32,7 +32,7 @@
         <div class="loginWrap">
 
             <div class="loginHead">
-                <p class="logo">TEXTNET</p>
+                <p class="logo">SPIRINK<span class="com">.com</span></p>
                 <!-- <p class="welcome">Welcome back!</p> -->
             </div>
             <form name="loginForm" action="${pageContext.request.contextPath}/loginPost.do" method="post">

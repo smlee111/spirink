@@ -1,0 +1,30 @@
+/* common.css */
+
+/* basic */
+#wrapAll {min-height: 100vh; font-family: 'Montserrat', 'Noto Sans KR', sans-serif; font-size:16px; font-weight: 400; background: #f0f4f7;}
+
+/* nav */
+#nav {width: 100%; height: 90px; background: #fff; transition:.15s; padding: 0 calc(200px + 15%) 0 50px; position: fixed;top: 0;left: 0; z-index: 999;}
+#nav.nav-up {top: -90px;}
+#nav.nav-down {top: 0;}
+#nav .logo {float: left; line-height: 90px; font-family: 'Lora', serif; color:#000; font-size: 25px; font-weight: 700;}
+
+#nav .menu {position: absolute;top: 50%;left: 50%; transform: translate(-50%,-50%);}
+#nav .menu > li {float: left; font-size:14px; font-weight: 600; cursor: pointer; transition: .15s; padding: 11px 16px 12px; margin: 0 0 0 25px; position: relative;}
+#nav .menu > li.on {background: #7952b3; border-radius: 20px; color:#fff;}
+#nav .menu > li:hover {background: #7952b3; border-radius: 20px; color:#fff;}
+#nav .menu > li .depth {display: none; background: #7952b3; border-radius: 10px; padding: 20px; position: absolute;top: 43px;left: 50%; transform: translateX(-50%);}
+#nav .menu > li .depth > li { color:#fff; margin: 0 0 20px;}
+#nav .menu > li .depth > li:last-child {margin: 0;}
+
+#nav .user {padding: 0 100px 0 45px; position: absolute;top: 50%;right: 50px; transform: translateY(-50%);}
+#nav .user li {float: left; position: relative;}
+#nav .user li.thumbnail {width: 33px; height: 33px; background: #555; border-radius: 100%; position: absolute;top:50%;left: 0; transform: translateY(-50%);}
+#nav .user li.btn {background: #7952b3; border-radius: 5px; color:#fff; font-size:13px; font-weight: 600; cursor: pointer; transition: .15s; padding: 9px 15px 10px; position: absolute;top:50%;right: 0; transform: translateY(-50%);}
+#nav .user li.btn:hover {background: #5d3f8a;}
+#nav .user li a {width:100%; height:100%; position:absolute;top:0;left:0;}
+#nav .user li span.name {font-weight: 600;}
+
+/* footer */
+#footer {width: 100%; background: #333; line-height: 110px; text-align: center; color:#fff; font-size: 13px;}
+#footer span {font-weight: 600;}
