@@ -1,0 +1,39 @@
+/* contents.css */
+
+/* basic */
+.contents {padding: 90px 0;}
+.contents section {margin: 0 0 60px;}
+.contents section .head {overflow: hidden; margin: 0 0 30px;}
+.contents section .head .tit {float: left; font-size:35px; font-weight: 600;}
+.contents section .head select {float: left; font-size:18px; font-weight: 400; border: 0; padding: 6px 15px; margin: 0 0 0 30px;}
+/* home */
+.contents .size {overflow: hidden; background: #5d3f8a; padding: 45px 60px;}
+.contents .size .box {float: left; margin: 0 200px 0 0;}
+.contents .size .box:last-child {text-align: right; margin: 0;}
+.contents .size .box .tit {color:#fff; font-size:15px; font-weight: 200; margin: 0 0 8px;}
+.contents .size .box .num {color:#fff; font-size:35px; font-weight: 600;}
+
+.contents .graph {overflow: hidden; padding: 0 60px;}
+.contents .graph .chart {float: left; background: #fff; padding: 40px; margin: 0 50px 0 0; position: relative;}
+.contents .graph .chart.chart1 {width: 35%; height: 450px;}
+.contents .graph .chart.chart1 canvas {width: calc(100% - 80px);}
+.contents .graph .chart.chart2 {width: 35%; height: 450px;}
+.contents .graph .chart.chart2 canvas {width: calc(100% - 80px);}
+.contents .graph .chart.chart3 {width: calc(30% - 100px); height: 450px; margin: 0;}
+.contents .graph .chart.chart3 canvas {width: calc(100% - 80px);}
+.contents .graph .chart canvas {position: absolute;top: 50%;left: 50%; transform: translate(-50%,-50%);}
+
+.contents .active {padding: 0 60px;}
+.contents .active .list li {overflow: hidden; background: #fff; transition: .15s; padding: 30px 40px; margin: 0 0 2px;}
+.contents .active .list li:hover {background: #7952b3; color:#fff; cursor: pointer;}
+.contents .active .list li:first-child {background: transparent; color:#777; font-size:15px; font-weight: 300; padding: 20px 40px; margin: 0;}
+.contents .active .list li:first-child:hover {background: transparent; color:#777; cursor: default;}
+.contents .active .list li p {float: left; text-align: center;}
+.contents .active .list li p.no {width: 5%;}
+.contents .active .list li p.company {width: 15%;}
+.contents .active .list li p.manager {width: 7.5%;}
+.contents .active .list li p.managerph {width: 15%;}
+.contents .active .list li p.worker {width: 7.5%;}
+.contents .active .list li p.task {width: 20%;}
+.contents .active .list li p.workerph {width: 15%;}
+.contents .active .list li p.date {width: 15%;}

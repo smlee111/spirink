@@ -1,0 +1,19 @@
+/* main.css */
+/*login*/
+.content {width: 100%; height: 100vh; background: #7952B3; position: relative;}
+.content .loginWrap {margin: 0 auto; width: 400px; position: absolute;top: 46%;left: 50%;transform: translate(-50%,-50%);}
+
+.content .loginWrap .loginHead {padding: 0 0 30px; text-align: center; color: #fff;}
+.content .loginWrap .loginHead .logo {font-size: 60px; font-weight: bolder;}
+.content .loginWrap .loginHead .welcome {font-size: 30px; font-weight: lighter;}
+
+.content .loginWrap .loginBox {padding:60px 50px; width: 100%; background: #fff; border-radius: 7px; box-shadow: 0 4px 10px rgb(0, 0, 0, 0.2);}
+.content .loginWrap .loginBox li input{box-sizing : border-box; margin: 0 0 20px; padding:0 10px 0; width: 100%; height: 50px; border-radius: 7px; border: 1.5px solid #e2e1e1; font-size: 15px; color: #000000;}
+.content .loginWrap .loginBox li input:-webkit-autofill {-webkit-box-shadow: 0 0 0 1000px white inset;}
+.content .loginWrap .loginBox li input:focus {outline: none;}
+.content .loginWrap .loginBox li input::placeholder {color: #b4b4b4;}
+.content .loginWrap .loginBox li .loginBtn {margin:20px 0 0 ; width: 100%; height: 50px; background: #7952B3; border-radius: 7px; cursor: pointer;}
+.content .loginWrap .loginBox li .loginBtn p {line-height: 50px; text-align: center; color: #fff; font-size: 15px;}
+
+
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean name="propertiesService" class="egovframework.rte.fdl.property.impl.EgovPropertyServiceImpl" destroy-method="destroy">
+		<property name="properties">
+	        <map>
+	        	<entry key="pageUnit" value="10"/>
+	        	<entry key="pageSize" value="10"/>
+	        	<entry key="projectNum" value="7,8"/><!-- 프로젝트 설정 -->
+	        	<!-- <entry key="FILE_UPLOAD_PATH" value="/home/tomcat/dev_upload"/> --><!-- 서버 경로 -->
+	        	<entry key="FILE_UPLOAD_PATH" value="C:/project/temp"/><!-- 로컬 경로 -->
+	        	<entry key="EXCEL_READ" value="excel_read2.py"/><!-- 개발DB 파이썬 경로  -->
+	        	<!-- <entry key="EXCEL_READ" value="excel_real.py"/> --><!-- 운영DB 파이썬 경로 -->
+	        	<!-- <entry key="PYTHON_EXEC" value="/home/tomcat/py_src"/> --><!-- 파이썬 경로  -->
+	        	<entry key="PYTHON_EXEC" value="C:/project/py_src"/><!-- 파이썬 경로  -->
+	        	<entry key="SPELL_EXCEL_READ" value="excel_spell_in.py"/><!-- 개발DB 맞춤법엑셀 경로  -->
+	        	<entry key="TYPE_EXCEL_READ" value="excel_type_in.py"/><!-- 형태적합성검사 경로  -->
+	        	<entry key="JSON_EXCEL_READ" value="excel_json_in.py"/><!-- JSON엑셀 DB입력  -->
+	        	<entry key="JSON_HANBAT_READ" value="excel_json_make.py"/><!-- JSON엑셀 DB입력  한밭대-->
+	        	<!-- <entry key="SPELL_EXCEL_READ" value="excel_spell_real.py"/> --><!-- 운영DB 맞춤법엑셀 경로  -->
+	        	<entry key="SPELL_CHECK_UPDATE" value="spellCheckDev.py"/><!-- 개발DB 맞춤법엑셀 경로  -->
+	        	<entry key="TYPE_CHK_MAKE" value="typeChkMake.py"/><!-- 맞춤법엑셀생성 경로  -->
+	        	<entry key="TYPE_CHK_SPELL" value="typeChkSpell.py"/><!-- 형태적합성검사 맞춤법  -->
+	        	<entry key="DB_NAME" value="spdb"/><!-- 개발DB  -->
+	        	<entry key="SERVER_FILE_UPLOAD_PATH" value="C:/project/temp"/><!-- 파일업로드경로 로컬  -->
+	        	<!-- <entry key="SERVER_FILE_UPLOAD_PATH" value="/home/tomcat/upload"/> --><!-- 파일업로드경로 서버  -->
+	        </map>
+		</property>
+	</bean>
+	
+</beans>	

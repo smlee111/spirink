@@ -14,7 +14,9 @@
   <!-- reset css  -->
   <link rel="stylesheet" href="../..${pageContext.request.contextPath}/css/reset.css"> 
   <!-- main css  -->
-  <link rel="stylesheet" href="../..${pageContext.request.contextPath}/css/main.css"> 
+<%--   <link rel="stylesheet" href="../..${pageContext.request.contextPath}/css/main.css"> --%> 
+	<link rel="stylesheet" href="../..${pageContext.request.contextPath}/resources/css/main.css">
+<!--   <link rel="stylesheet" href="../../SP_PRO/css/main.css">  -->
   <link rel="">
   <!-- Font Awesome -->
   <%-- <link rel="stylesheet" href="../..${pageContext.request.contextPath}/plugins/fontawesome-free/css/all.min.css"> --%>
@@ -30,7 +32,8 @@
 <body>
 <div class="content">
         <div class="loginWrap">
-
+			<c:out value="Hello World" />
+			<c:out value="${pageContext.request.contextPath}"/>
             <div class="loginHead">
                 <p class="logo">SPIRINK<span class="com">.com</span></p>
                 <!-- <p class="welcome">Welcome back!</p> -->

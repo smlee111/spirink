@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Common">
+	<insert id="commonDAO.insertLogData">
+		<![CDATA[
+			INSERT INTO tb_user_log
+				( log_project
+				  , bd_idx
+				  , cd_group
+				  , cd_code
+				  , mb_idx
+				  , log_cont)
+			VALUES ( #log_project#
+				  , #bd_idx#
+				  , #cd_group#
+				  , #cd_code#
+				  , #mb_idx#
+				  , #log_cont#)
+		]]>
+	</insert>
+	
+	<select id="commonDAO.selectLogList" parameterClass="searchVO" resultClass="java.util.HashMap">
+			SELECT 
+				B.gd_name,
+				B.cd_cd_nm,
+				A.log_cont,
+				A.log_ins_dt,
+				(SELECT bd_title FROM tb_work_bd WHERE bd_idx=A.bd_idx) bd_title
+			FROM tb_user_log A,tb_code B
+			WHERE A.cd_group=B.cd_group
+			AND A.cd_code=B.cd_code
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				log_cont like concat('%',#searchKeyword#,'%')
+			</isEqual>
+			ORDER BY log_idx DESC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+	</select>
+	<select id="commonDAO.selectLogListTotCnt" parameterClass="searchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM tb_user_log
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				log_cont like concat('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+</sqlMap>
