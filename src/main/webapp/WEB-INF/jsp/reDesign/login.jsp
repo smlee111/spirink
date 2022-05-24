@@ -33,6 +33,10 @@
 
             <div class="loginHead">
                 <p class="logo">SPIRINK<span class="com">.com</span></p>
+                <p class="logo">SPIRINK<span class="com">.com</span></p>
+                <p class="logo">SPIRINK<span class="com">.com</span></p>
+                <p class="logo">SPIRINK<span class="com">.com</span></p>
+                <p class="logo">SPIRINK<span class="com">.com</span></p>
                 <!-- <p class="welcome">Welcome back!</p> -->
             </div>
             <form name="loginForm" action="${pageContext.request.contextPath}/loginPost.do" method="post">
