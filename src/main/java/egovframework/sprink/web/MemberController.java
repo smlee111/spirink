@@ -121,6 +121,23 @@ public class MemberController {
 	/** Validator */
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
+	
+	/**
+	 * 뉴메인
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/new_main.do")
+	public String new_main(HttpSession session,@RequestParam Map<String, String> requestParams, ModelMap model) throws Exception {
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		///여기에 통계에 필요한 쿼리 수행
+		
+		return "main/new_main";
+	}
 
 	/**
 	 * 메인
@@ -1026,10 +1043,10 @@ public class MemberController {
 		    
 			commonService.insertLogData(logData);
 	    }
-		return "reDesign/login";
+		return "redirect:/new_main.do";
 	}
    // 로그인 submit
-  @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
+  @RequestMapping(value = "/loginPost.do", method = RequestMethod.POST)
   public String loginPost(@RequestParam Map<String, String> requestParams, Model model, HttpSession session) throws Exception {
 	  String returnURL = "";
 	  try {
@@ -1069,10 +1086,10 @@ public class MemberController {
   		  session.setAttribute("authList", authList); // 세션에 login인이란 이름으로 UsersVO 객체를 저장해 놓은다
   		  //System.out.println("세션적용");
           //returnURL = "redirect:/type_chk_main.do"; // 로그인 성공시 메인페이지로 이동하고
-  		  returnURL = "redirect:/reDesign/main.do";
+  		  returnURL = "redirect:/new_main.do";
           
       }else { // 로그인에 실패한 경우
-          returnURL = "redirect:/login.do"; // 로그인 폼으로 다시 가도록 함
+          returnURL = "redirect:/new_main.do"; // 로그인 폼으로 다시 가도록 함
       }
 	  }catch(Exception e) {
 		  e.printStackTrace();

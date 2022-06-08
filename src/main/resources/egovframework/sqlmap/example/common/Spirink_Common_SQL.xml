@@ -44,4 +44,6 @@
 				log_cont like concat('%',#searchKeyword#,'%')
 			</isEqual>
 	</select>
+	<select id="commonDAO.selectEntityList" parameterClass="searchVO" resultClass="java.util.HashMap"> SELECT entity_name, entity_entry, entity_category, entity_ins_dt, entity_upd_dt FROM tb_entity ORDER BY entity_idx ASC LIMIT #recordCountPerPage# OFFSET #firstIndex# </select>
+	<select id="commonDAO.selectEntityListTotCnt" parameterClass="searchVO" resultClass="int"> SELECT COUNT(*) totcnt FROM tb_entity </select>
 </sqlMap>
