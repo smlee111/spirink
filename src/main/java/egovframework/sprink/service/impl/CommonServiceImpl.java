@@ -74,4 +74,16 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl implements Common
 		// TODO Auto-generated method stub
 		return commonDAO.selectLogListTotCnt(searchVO);
 	}
+	
+	@Override
+	public List<?> selectEntityList(SampleDefaultVO searchVO) throws Exception {
+		// TODO Auto-generated method stub
+		return commonDAO.selectEntityList(searchVO);
+	}
+	
+	@Override
+	public int selectEntityListTotCnt(SampleDefaultVO searchVO) {
+		// TODO Auto-generated method stub
+		return commonDAO.selectEntityListTotCnt(searchVO);
+	}
 }

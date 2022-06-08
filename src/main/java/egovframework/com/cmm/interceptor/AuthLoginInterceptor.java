@@ -30,16 +30,16 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
          return false; // 더이상 컨트롤러 요청으로 가지 않도록 false로 반환함
      }
      
-     if(obj!=null) {
-    	 boolean chkAuth = chkAuth(request);
-    	 if(!chkAuth) {
-    		 session.removeAttribute("login"); // 기존값을 제거해 준다.
-    		 session.removeAttribute("authList"); // 기존값을 제거해 준다.
-    		 response.sendRedirect("login.do");
-             return false; // 더이상 컨트롤러 요청으로 가지 않도록 false로 반환함
-    	 }
-    	 
-     }
+//     if(obj!=null) {
+//    	 boolean chkAuth = chkAuth(request);
+//    	 if(!chkAuth) {
+//    		 session.removeAttribute("login"); // 기존값을 제거해 준다.
+//    		 session.removeAttribute("authList"); // 기존값을 제거해 준다.
+//    		 response.sendRedirect("login.do");
+//             return false; // 더이상 컨트롤러 요청으로 가지 않도록 false로 반환함
+//    	 }
+//    	 
+//     }
      // preHandle의 return은 컨트롤러 요청 uri로 가도 되냐 안되냐를 허가하는 의미임
      // 따라서 true로하면 컨트롤러 uri로 가게 됨.
      return true;
@@ -62,6 +62,7 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 	 exvec.add("loginPost.do");
 	 exvec.add("logOut.do");
 	 exvec.add("mem_login_ajax.do");
+	 exvec.add("new_main.do");
 	 //exvec.add("mem_ajax.do");
 	 
 	 String url = request.getRequestURL().toString();
