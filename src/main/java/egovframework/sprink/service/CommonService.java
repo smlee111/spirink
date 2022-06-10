@@ -54,6 +54,22 @@ public interface CommonService {
 	List<?> selectLogList(SampleDefaultVO searchVO) throws Exception;
 	
 	/**
+	 * 엔티티 목록을 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 글 목록
+	 * @exception Exception
+	 */
+	List<?> selectEntityList(SampleDefaultVO searchVO) throws Exception;
+	
+	/**
+	 * 엔티티 총 갯수를 조회한다.
+	 * @param searchVO - 조회할 정보가 담긴 VO
+	 * @return 글 총 갯수
+	 * @exception
+	 */
+	int selectEntityListTotCnt(SampleDefaultVO searchVO);
+	
+	/**
 	 * 글 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO
 	 * @return 글 총 갯수
